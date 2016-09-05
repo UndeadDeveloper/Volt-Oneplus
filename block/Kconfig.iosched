@@ -113,6 +113,22 @@ config IOSCHED_SIOPLUS
 	  basic merging, trying to keep a minimum overhead. It is aimed
 	  mainly for aleatory access devices (eg: flash devices).  
 
+<<<<<<< HEAD
+=======
+config IOSCHED_TRIPNDROID
+	tristate "Tripndroid"
+	default y
+	---help---
+	  The Trip N Droid scheduler
+  
+config IOSCHED_VR
+	tristate "V(R) I/O scheduler"
+	default y
+	---help---
+	  Requests are chosen according to SSTF with a penalty of rev_penalty
+	  for switching head direction.
+
+>>>>>>> a01ea94... block: add vr scheduler
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_MAPLE
@@ -152,6 +168,15 @@ choice
 	config DEFAULT_SIOPLUS
 		bool "SIOPLUS" if IOSCHED_SIOPLUS=y
 
+<<<<<<< HEAD
+=======
+	config DEFAULT_TRIPNDROID
+		bool "TRIPNDROID" if IOSCHED_TRIPNDROID=y
+
+	config DEFAULT_VR
+		bool "V(R)" if IOSCHED_VR=y
+
+>>>>>>> a01ea94... block: add vr scheduler
 endchoice
 
 config DEFAULT_IOSCHED
@@ -171,7 +196,12 @@ config DEFAULT_IOSCHED
 >>>>>>> ba376e8... block: add fifo scheduler
 =======
 	default "sioplus" if DEFAULT_SIOPLUS
+<<<<<<< HEAD
 >>>>>>> 84b2697... block: add sioplus scheduler
+=======
+	default "tripndroid" if DEFAULT_TRIPNDROID
+	default "vr" if DEFAULT_VR
+>>>>>>> a01ea94... block: add vr scheduler
 
 endmenu
 

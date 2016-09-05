@@ -72,6 +72,13 @@ config CFQ_GROUP_IOSCHED
 	---help---
 	  Enable group IO scheduling in CFQ.
 
+config IOSCHED_ZEN
+	tristate "Zen I/O scheduler"
+	default y
+	---help---
+	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
+	  Should work best with devices where there is no travel delay.
+
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_MAPLE
@@ -100,6 +107,7 @@ choice
 		bool "FIOPS" if IOSCHED_FIOPS=y
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	config DEFAULT_ZEN
 		bool "ZEN" if IOSCHED_ZEN=y
 
@@ -109,6 +117,11 @@ choice
 >>>>>>> 0556749... block: add MAPLE I/O scheduler and set it as default
 =======
 >>>>>>> b09fb50... Add SIO and FIOPS i/o schedulers
+=======
+	config DEFAULT_ZEN
+		bool "ZEN" if IOSCHED_ZEN=y
+
+>>>>>>> 4a022c8... block: add zen scheduler
 endchoice
 
 config DEFAULT_IOSCHED
@@ -127,7 +140,11 @@ config DEFAULT_IOSCHED
 =======
 	default "fiops" if DEFAULT_FIOPS
 	default "sio" if DEFAULT_SIO
+<<<<<<< HEAD
 >>>>>>> b09fb50... Add SIO and FIOPS i/o schedulers
+=======
+	default "zen" if DEFAULT_ZEN
+>>>>>>> 4a022c8... block: add zen scheduler
 
 endmenu
 

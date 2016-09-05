@@ -25,12 +25,15 @@ obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
 obj-$(CONFIG_IOSCHED_FIOPS)     += fiops-iosched.o
 obj-$(CONFIG_IOSCHED_SIO)       += sio-iosched.o
 obj-$(CONFIG_IOSCHED_ZEN)	+= zen-iosched.o
+<<<<<<< HEAD
 obj-$(CONFIG_IOSCHED_MAPLE)     += maple-iosched.o
 >>>>>>> 0556749... block: add MAPLE I/O scheduler and set it as default
 =======
 obj-$(CONFIG_IOSCHED_FIOPS)     += fiops-iosched.o
 obj-$(CONFIG_IOSCHED_SIO)       += sio-iosched.o
 >>>>>>> b09fb50... Add SIO and FIOPS i/o schedulers
+=======
+>>>>>>> 4a022c8... block: add zen scheduler
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

@@ -37,7 +37,12 @@ obj-$(CONFIG_IOSCHED_FIFO)	+= fifo-iosched.o
 >>>>>>> ba376e8... block: add fifo scheduler
 =======
 obj-$(CONFIG_IOSCHED_SIOPLUS)	+= sioplus-iosched.o
+<<<<<<< HEAD
 >>>>>>> 84b2697... block: add sioplus scheduler
+=======
+obj-$(CONFIG_IOSCHED_TRIPNDROID)+= tripndroid-iosched.o
+obj-$(CONFIG_IOSCHED_VR)	+= vr-iosched.o
+>>>>>>> a01ea94... block: add vr scheduler
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

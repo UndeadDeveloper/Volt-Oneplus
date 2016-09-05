@@ -42,7 +42,11 @@ obj-$(CONFIG_IOSCHED_SIOPLUS)	+= sioplus-iosched.o
 =======
 obj-$(CONFIG_IOSCHED_TRIPNDROID)+= tripndroid-iosched.o
 obj-$(CONFIG_IOSCHED_VR)	+= vr-iosched.o
+<<<<<<< HEAD
 >>>>>>> a01ea94... block: add vr scheduler
+=======
+obj-$(CONFIG_IOSCHED_ZEN)	+= zen-iosched.o
+>>>>>>> 1bbbcb5... block: add zen v2 scheduler
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

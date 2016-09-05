@@ -123,7 +123,17 @@ config IOSCHED_ZEN
 	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
 	  Should work best with devices where there is no travel delay.
 
+<<<<<<< HEAD
 >>>>>>> e830d19... block: add zen scheduler
+=======
+config IOSCHED_FIFO
+	tristate "FIFO I/O scheduler"
+	default y
+	---help---
+	  Fifo is similar to no-op I/O scheduler and it's a minimal scheduler that does basic merging
+	  and sorting. Ported from: https://github.com/AndroidDeveloperAlliance/ZenKernel_TUNA/blob/master/block/fifo-iosched.c
+
+>>>>>>> 96de525... block: add fifo scheduler
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_MAPLE
@@ -143,6 +153,7 @@ choice
 	config DEFAULT_SIO
 		bool "SIO" if IOSCHED_SIO=y
 
+<<<<<<< HEAD
 	config DEFAULT_FIOPS
 		bool "FIOPS" if IOSCHED_FIOPS=y
 
@@ -151,6 +162,10 @@ choice
 
 	config DEFAULT_MAPLE
 		bool "Maple" if IOSCHED_MAPLE=y
+=======
+	config DEFAULT_FIFO
+		bool "fifo" if IOSCHED_FIFO=y
+>>>>>>> ba376e8... block: add fifo scheduler
 
 endchoice
 
@@ -161,8 +176,12 @@ config DEFAULT_IOSCHED
 	default "noop" if DEFAULT_NOOP
 	default "fiops" if DEFAULT_FIOPS
 	default "sio" if DEFAULT_SIO
+<<<<<<< HEAD
 	default "zen" if DEFAULT_ZEN
 	default "maple" if DEFAULT_MAPLE
+=======
+	default "fifo" if DEFAULT_FIFO
+>>>>>>> ba376e8... block: add fifo scheduler
 
 endmenu
 

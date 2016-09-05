@@ -161,8 +161,21 @@ config IOSCHED_VR
 	  Requests are chosen according to SSTF with a penalty of rev_penalty
 	  for switching head direction.
 
+<<<<<<< HEAD
 >>>>>>> a01ea94... block: add vr scheduler
+<<<<<<< HEAD
 >>>>>>> 8a6da9b... block: add vr scheduler
+=======
+=======
+config IOSCHED_ZEN
+	tristate "Zen I/O scheduler"
+	default y
+	---help---
+	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
+	  Should work best with devices where there is no travel delay.
+
+>>>>>>> 1bbbcb5... block: add zen v2 scheduler
+>>>>>>> 5b6e48e... block: add zen v2 scheduler
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_MAPLE
@@ -207,7 +220,13 @@ choice
 	config DEFAULT_VR
 		bool "V(R)" if IOSCHED_VR=y
 
+<<<<<<< HEAD
 >>>>>>> a01ea94... block: add vr scheduler
+=======
+	config DEFAULT_ZEN
+		bool "ZEN" if IOSCHED_ZEN=y
+
+>>>>>>> 1bbbcb5... block: add zen v2 scheduler
 endchoice
 
 config DEFAULT_IOSCHED
@@ -231,7 +250,11 @@ config DEFAULT_IOSCHED
 =======
 	default "tripndroid" if DEFAULT_TRIPNDROID
 	default "vr" if DEFAULT_VR
+<<<<<<< HEAD
 >>>>>>> a01ea94... block: add vr scheduler
+=======
+	default "zen" if DEFAULT_ZEN
+>>>>>>> 1bbbcb5... block: add zen v2 scheduler
 
 endmenu
 

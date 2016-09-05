@@ -33,7 +33,11 @@ obj-$(CONFIG_IOSCHED_MAPLE)     += maple-iosched.o
 obj-$(CONFIG_IOSCHED_FIOPS)	+= fiops-iosched.o
 obj-$(CONFIG_IOSCHED_SIO)	+= sio-iosched.o
 obj-$(CONFIG_IOSCHED_FIFO)	+= fifo-iosched.o
+<<<<<<< HEAD
 >>>>>>> ba376e8... block: add fifo scheduler
+=======
+obj-$(CONFIG_IOSCHED_SIOPLUS)	+= sioplus-iosched.o
+>>>>>>> 84b2697... block: add sioplus scheduler
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

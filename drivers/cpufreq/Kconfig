@@ -387,11 +387,23 @@ config CPU_FREQ_GOV_ALUCARD
  
 	  If in doubt, say N.
 
+<<<<<<< HEAD
 config MSM_TRACK_FREQ_TARGET_INDEX
 	bool "Track cpufreq frequency index"
 	default y
 	depends on CPU_FREQ && ARCH_MSM8998
 
+=======
+<<<<<<< HEAD
+>>>>>>> 58574bf... cpufreq_alucard: Imported my cpu governor.
+=======
+config MSM_TRACK_FREQ_TARGET_INDEX
+	bool "Track cpufreq frequency index"
+	default n
+	depends on CPU_FREQ && ARCH_MSM
+
+>>>>>>> 6474429... cpufreq: Implemented CONFIG_MSM_TRACK_FREQ_TARGET_INDEX to keep track about cpu frequency target index.
+>>>>>>> 207fc51... cpufreq: Implemented CONFIG_MSM_TRACK_FREQ_TARGET_INDEX to keep track about cpu frequency target index.
 if X86
 source "drivers/cpufreq/Kconfig.x86"
 endif

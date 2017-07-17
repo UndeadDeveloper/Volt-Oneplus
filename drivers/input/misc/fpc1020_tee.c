@@ -54,6 +54,10 @@
 
 #include <linux/project_info.h>
 
+#ifdef CONFIG_BOEFFLA_TOUCH_KEY_CONTROL
+#include <linux/boeffla_touchkey_control.h>
+#endif
+
 static unsigned int ignor_home_for_ESD = 0;
 module_param(ignor_home_for_ESD, uint, S_IRUGO | S_IWUSR);
 
@@ -293,9 +297,21 @@ static ssize_t report_home_set(struct device *dev,
 		return -EINVAL;
 	if (!strncmp(buf, "down", strlen("down")))
 	{
+<<<<<<< HEAD
             input_report_key(fpc1020->input_dev,
                             KEY_HOME, 1);
             input_sync(fpc1020->input_dev);
+=======
+            if (!s3320_stop_buttons)
+            {
+				input_report_key(fpc1020->input_dev,
+								KEY_HOME, 1);
+				input_sync(fpc1020->input_dev);
+#ifdef CONFIG_BOEFFLA_TOUCH_KEY_CONTROL
+				btkc_touch_button();
+#endif
+			}
+>>>>>>> d73710bd0b94... leds: Boeffla touchkey control driver 1.2.0 for OnePlus5 (OOS)
 	}
 	else if (!strncmp(buf, "up", strlen("up")))
 	{

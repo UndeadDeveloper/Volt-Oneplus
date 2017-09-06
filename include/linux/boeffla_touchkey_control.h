@@ -34,10 +34,14 @@
 #define LED_OFF			0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define BTK_CONTROL_VERSION 	"1.3.0"
 =======
 #define BTK_CONTROL_VERSION	"1.3.1"
 >>>>>>> ea81f00dfaa7... leds: boeffla_touchkey_control: Satisfy checkpatch.pl
+=======
+#define BTK_CONTROL_VERSION 	"1.3.1"
+>>>>>>> e692825f41ec... leds: Boeffla touchkey control driver update to version 1.3.1
 
 
 /*****************************************

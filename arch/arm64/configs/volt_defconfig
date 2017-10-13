@@ -6,6 +6,7 @@
 # 
 # Volt extras
 #
+CONFIG_BOEFFLA_TOUCH_KEY_CONTROL=y
 
 
 CONFIG_ARM64=y

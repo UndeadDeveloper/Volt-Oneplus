@@ -61,21 +61,7 @@
 #include <linux/project_info.h>
 #include "synaptics_baseline.h"
 
-#define WAKE_GESTURES 		1
-#ifdef WAKE_GESTURES
-#define WAKE_GESTURE		0x0b
-#define SWEEP_RIGHT		0x01
-#define SWEEP_LEFT		0x02
-#define SWEEP_UP		0x04
-#define SWEEP_DOWN		0x08
-static struct synaptics_ts_data *gl_ts;
-static struct input_dev *gesture_dev;
-struct kobject *android_touch_kobj;
-EXPORT_SYMBOL_GPL(android_touch_kobj);
-static int gestures_switch = 0;
-static int s2w_switch = 0;
-static int dt2w_switch = 0;
-#endif
+#include <linux/moduleparam.h>
 
 /*------------------------------------------------Global Define--------------------------------------------*/
 
@@ -193,9 +179,14 @@ int Down2UpSwip_gesture =0;//"down to up |"
 int Wgestrue_gesture =0;//"(W)"
 int Mgestrue_gesture =0;//"(M)"
 int Sgestrue_gesture =0;//"(S)"
+bool s3320_stop_buttons;
 static int gesture_switch = 0;
 //ruanbanmao@BSP add for tp gesture 2015-05-06, end
 #endif
+
+// module parameter
+bool no_buttons_during_touch = true;
+module_param(no_buttons_during_touch, bool, 0644);
 
 /*********************for Debug LOG switch*******************/
 #define TPD_ERR(a, arg...)  pr_err(TPD_DEVICE ": " a, ##arg)
@@ -1232,14 +1223,9 @@ static void gesture_judge(struct synaptics_ts_data *ts)
 				UnkownGestrue;
             //#endif, ruanbanmao@bsp 2015-05-06, end.
 	}
-#endif
 
 // carlo@oneplus.net 2015-05-25, begin.
-<<<<<<< HEAD
 /*
-=======
-#ifndef WAKE_GESTURES
->>>>>>> a33f7db626d9... OnePlus5: Wake gestures: sweep2wake and doubletap2wake
 	keyCode = UnkownGestrue;
 	// Get key code based on registered gesture.
 	switch (gesture) {
@@ -1276,7 +1262,6 @@ static void gesture_judge(struct synaptics_ts_data *ts)
 		default:
 			break;
 	}
-#endif
 // carlo@oneplus.net 2015-05-25, end.
 */
 
@@ -1298,62 +1283,10 @@ static void gesture_judge(struct synaptics_ts_data *ts)
 
     TPD_DEBUG("gesture suport LeftVee:%d RightVee:%d DouSwip:%d Circle:%d UpVee:%d DouTap:%d\n",\
         LeftVee_gesture,RightVee_gesture,DouSwip_gesture,Circle_gesture,UpVee_gesture,DouTap_gesture);
-#ifdef WAKE_GESTURES
-	if ((gesture == Down2UpSwip && s2w_switch & SWEEP_UP) ||
-		(gesture == Up2DownSwip && s2w_switch & SWEEP_DOWN) ||
-		(gesture == Right2LeftSwip && s2w_switch & SWEEP_LEFT) ||
-		(gesture == Left2RightSwip && s2w_switch & SWEEP_RIGHT) ||
-		(gesture == DouTap && dt2w_switch)) {
-
-		//wake gestures (requires app)
-		if (gestures_switch) {
-			int gest;
-			switch (gesture) {
-				case DouTap:
-					gest = 5;
-					break;
-				case Down2UpSwip:
-					gest = 3;
-					break;
-				case Up2DownSwip:
-					gest = 4;
-					break;
-				case Right2LeftSwip:
-					gest = 2;
-					break;
-				case Left2RightSwip:
-					gest = 1;
-					break;
-			}
-
-			input_report_rel(gesture_dev, WAKE_GESTURE, gest);
-			input_sync(gesture_dev);
-
-		//traditional s2w using userspace doubletap gesture from OnePlus (checks proximity sensor and vibrates)
-		} else if (DouTap_gesture) {
-			gesture_upload = DouTap;
-			input_report_key(ts->input_dev, keyCode, 1);
-			input_sync(ts->input_dev);
-			input_report_key(ts->input_dev, keyCode, 0);
-			input_sync(ts->input_dev);
-
-		//traditional s2w if gestures not enabled in OnePlus settings (only turns on screen)
-		} else {
-			input_report_key(ts->input_dev, KEY_POWER, 1);
-			input_sync(ts->input_dev);
-			input_report_key(ts->input_dev, KEY_POWER, 0);
-			input_sync(ts->input_dev);
-		}
-	} else
-#endif
 	if((gesture == DouTap && DouTap_gesture)||(gesture == RightVee && RightVee_gesture)\
         ||(gesture == LeftVee && LeftVee_gesture)||(gesture == UpVee && UpVee_gesture)\
         ||(gesture == Circle && Circle_gesture)||(gesture == DouSwip && DouSwip_gesture)\
 	||gesture == Sgestrue || gesture == Wgestrue || gesture == Mgestrue){
-#ifdef WAKE_GESTURES
-		if (!dt2w_switch && s2w_switch && gesture == DouTap)
-			return;
-#endif
 		gesture_upload = gesture;
 		input_report_key(ts->input_dev, keyCode, 1);
 		input_sync(ts->input_dev);
@@ -1373,6 +1306,7 @@ static void gesture_judge(struct synaptics_ts_data *ts)
 	}
     TPD_DEBUG("%s end!\n",__func__);
 }
+#endif
 /***************end****************/
 static char prlog_count = 0;
 #ifdef REPORT_2D_PRESSURE
@@ -1529,6 +1463,7 @@ void int_touch(void)
 			input_mt_slot(ts->input_dev, i);
 			input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER, finger_status);
 			input_report_key(ts->input_dev, BTN_TOOL_FINGER, 1);
+			s3320_stop_buttons = no_buttons_during_touch;
 			input_report_abs(ts->input_dev, ABS_MT_POSITION_X, points.x);
 			input_report_abs(ts->input_dev, ABS_MT_POSITION_Y, points.y);
 			//#ifdef REPORT_2D_W
@@ -1580,6 +1515,8 @@ void int_touch(void)
 		if (3 == (++prlog_count % 6))
 			TPD_ERR("all finger up\n");
 		input_report_key(ts->input_dev, BTN_TOOL_FINGER, 0);
+		s3320_stop_buttons = false;
+
 #ifndef TYPE_B_PROTOCOL
 		input_mt_sync(ts->input_dev);
 #endif
@@ -1625,7 +1562,7 @@ static void int_key_report_s3508(struct synaptics_ts_data *ts)
 	button_key = synaptics_rmi4_i2c_read_byte(ts->client,F1A_0D_DATA00);
 	if (1 == (++log_count % 4))
 		TPD_ERR("touch_key[0x%x],touchkey_state[0x%x]\n",button_key,ts->pre_btn_state);
-	if((button_key & 0x01) && !(ts->pre_btn_state & 0x01) && !key_back_disable)//back
+	if((button_key & 0x01) && !(ts->pre_btn_state & 0x01) && !key_back_disable && !s3320_stop_buttons)//back
 	{
 		input_report_key(ts->input_dev, OEM_KEY_BACK, 1);
 		input_sync(ts->input_dev);
@@ -1637,7 +1574,7 @@ static void int_key_report_s3508(struct synaptics_ts_data *ts)
 		input_sync(ts->input_dev);
 	}
 
-	if((button_key & 0x02) && !(ts->pre_btn_state & 0x02) && !key_appselect_disable)//menu
+	if((button_key & 0x02) && !(ts->pre_btn_state & 0x02) && !key_appselect_disable && !s3320_stop_buttons)//menu
 	{
 		input_report_key(ts->input_dev, OEM_KEY_APPSELECT, 1);
 		input_sync(ts->input_dev);
@@ -1770,16 +1707,6 @@ static ssize_t i2c_device_test_read_func(struct file *file, char __user *user_bu
 }
 
 #ifdef SUPPORT_GESTURE
-#ifdef WAKE_GESTURES
-static void gestures_enable(void)
-{
-	struct synaptics_ts_data *ts = gl_ts;
-	ts->gesture_enable = (gestures_switch || s2w_switch || dt2w_switch ||
-			LeftVee_gesture || RightVee_gesture || DouSwip_gesture ||
-			Circle_gesture || UpVee_gesture || DouTap_gesture) ? 1 : 0;
-}
-#endif
-
 static ssize_t tp_gesture_read_func(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
 {
 	int ret = 0;
@@ -1819,9 +1746,6 @@ static ssize_t tp_gesture_write_func(struct file *file, const char __user *buffe
 	Mgestrue_gesture = (buf[1] & BIT1)?1:0; //"M"
 	Wgestrue_gesture = (buf[1] & BIT2)?1:0; //"W"
 
-#ifdef WAKE_GESTURES
-	gestures_enable();
-#else
 	if(DouTap_gesture||Circle_gesture||UpVee_gesture||LeftVee_gesture\
       ||RightVee_gesture||DouSwip_gesture||Sgestrue_gesture||Mgestrue_gesture||Wgestrue_gesture)
 	{
@@ -1832,7 +1756,6 @@ static ssize_t tp_gesture_write_func(struct file *file, const char __user *buffe
 		ts->gesture_enable = 0;
 	}
     //ruanbanmao@BSP add for tp gesture 2015-05-06, end
-#endif
 	return count;
 }
 static ssize_t coordinate_proc_read_func(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
@@ -1979,7 +1902,7 @@ static ssize_t synap_write_address(struct file *file, const char __user *buffer,
     }
     else
         block = temp_block;
-	return count;
+    return count;
 }
 
 #ifdef SUPPORT_GLOVES_MODE
@@ -2742,10 +2665,6 @@ static int	synaptics_input_init(struct synaptics_ts_data *ts)
 	set_bit(BTN_TOOL_FINGER, ts->input_dev->keybit);
 #ifdef SUPPORT_GESTURE
 	set_bit(KEY_F4 , ts->input_dev->keybit);//doulbe-tap resume
-#ifdef WAKE_GESTURES
-	set_bit(KEY_POWER, ts->input_dev->keybit);
-	input_set_capability(ts->input_dev, EV_KEY, KEY_POWER);
-#endif
 	set_bit(KEY_DOUBLE_TAP, ts->input_dev->keybit);
 	set_bit(KEY_GESTURE_CIRCLE, ts->input_dev->keybit);
 	set_bit(KEY_GESTURE_V, ts->input_dev->keybit);
@@ -4369,80 +4288,6 @@ static int synaptics_ts_init_virtual_key(struct synaptics_ts_data *ts )
 }
 #endif
 
-#ifdef WAKE_GESTURES
-static ssize_t sweep2wake_show(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	size_t count = 0;
-	count += sprintf(buf, "%d\n", s2w_switch);
-
-	return count;
-}
-
-static ssize_t sweep2wake_dump(struct device *dev,
-		struct device_attribute *attr, const char *buf, size_t count)
-{
-	int input;
-	sscanf(buf, "%d ", &input);
-	if (input < 0 || input > 15) {
-		s2w_switch = 0;
-	} else {
-		s2w_switch = input;
-	}
-	gestures_enable();
-
-	return count;
-}
-
-static DEVICE_ATTR(sweep2wake, (S_IWUSR|S_IRUGO),
-	sweep2wake_show, sweep2wake_dump);
-
-
-static ssize_t doubletap2wake_show(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	size_t count = 0;
-	count += sprintf(buf, "%d\n", dt2w_switch);
-
-	return count;
-}
-
-static ssize_t doubletap2wake_dump(struct device *dev,
-		struct device_attribute *attr, const char *buf, size_t count)
-{
-	int input;
-	sscanf(buf, "%d ", &input);
-	dt2w_switch = (input) ? 1 : 0;
-	gestures_enable();
-
-	return count;
-}
-
-static DEVICE_ATTR(doubletap2wake, (S_IWUSR|S_IRUGO),
-	doubletap2wake_show, doubletap2wake_dump);
-
-static ssize_t wake_gestures_show(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	size_t count = 0;
-	count += sprintf(buf, "%d\n", gestures_switch);
-	return count;
-}
-static ssize_t wake_gestures_dump(struct device *dev,
-		struct device_attribute *attr, const char *buf, size_t count)
-{
-	int input;
-	sscanf(buf, "%d ", &input);
-	gestures_switch = (input) ? 1 : 0;
-	gestures_enable();
-
-	return count;
-}
-
-static DEVICE_ATTR(wake_gestures, (S_IWUSR|S_IRUGO),
-	wake_gestures_show, wake_gestures_dump);
-#endif
-
 static int synaptics_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
 #ifdef CONFIG_SYNAPTIC_RED
@@ -4670,51 +4515,8 @@ static int synaptics_ts_probe(struct i2c_client *client, const struct i2c_device
 	}
 #endif
 	init_synaptics_proc();
-
-#ifdef WAKE_GESTURES
-	gl_ts = ts;
-
-	gesture_dev = input_allocate_device();
-	if (!gesture_dev) {
-		pr_err("Can't allocate gesture device\n");
-		goto exit_init_failed;
-	}
-
-	gesture_dev->name = "wake_gesture";
-	gesture_dev->phys = "wake_gesture/input0";
-	input_set_capability(gesture_dev, EV_REL, WAKE_GESTURE);
-
-	ret = input_register_device(gesture_dev);
-	if (ret) {
-		pr_err("%s: input_register_device err=%d\n", __func__, ret);
-		goto err_gesture_dev;
-	}
-
-	android_touch_kobj = kobject_create_and_add("android_touch", NULL) ;
-	if (android_touch_kobj == NULL) {
-		pr_warn("%s: android_touch_kobj create_and_add failed\n", __func__);
-	}
-	ret = sysfs_create_file(android_touch_kobj, &dev_attr_sweep2wake.attr);
-	if (ret) {
-		pr_warn("%s: sysfs_create_file failed for sweep2wake\n", __func__);
-	}
-	ret = sysfs_create_file(android_touch_kobj, &dev_attr_doubletap2wake.attr);
-	if (ret) {
-		pr_warn("%s: sysfs_create_file failed for doubletap2wake\n", __func__);
-	}
-	ret = sysfs_create_file(android_touch_kobj, &dev_attr_wake_gestures.attr);
-	if (ret) {
-		pr_warn("%s: sysfs_create_file failed for wake_gestures\n", __func__);
-	}
-#endif
-
 	TPDTM_DMESG("synaptics_ts_probe 3203: normal end\n");
 	return 0;
-
-#ifdef WAKE_GESTURES
-err_gesture_dev:
-	input_free_device(gesture_dev);
-#endif
 
 exit_init_failed:
 	free_irq(client->irq,ts);
@@ -4942,34 +4744,30 @@ static int fb_notifier_callback(struct notifier_block *self, unsigned long event
 
 	struct synaptics_ts_data *ts = container_of(self, struct synaptics_ts_data, fb_notif);
 
-	if(FB_EARLY_EVENT_BLANK != event && FB_EVENT_BLANK != event)
-	return 0;
-	if((evdata) && (evdata->data) && (ts) && (ts->client))
-	{
-		blank = evdata->data;
-		TPD_DEBUG("%s blank[%d],event[0x%lx]\n", __func__,*blank,event);
+	if (FB_EARLY_EVENT_BLANK != event && FB_EVENT_BLANK != event)
+		return 0;
 
-		if((*blank == FB_BLANK_UNBLANK/* || *blank == FB_BLANK_VSYNC_SUSPEND || *blank == FB_BLANK_NORMAL*/)\
-            //&& (event == FB_EVENT_BLANK ))
-		 && (event == FB_EARLY_EVENT_BLANK ))
-		{
-			if (ts->is_suspended == 1)
-			{
+	if (evdata && evdata->data && ts && ts->client) {
+		blank = evdata->data;
+		TPD_DEBUG("%s blank[%d], event[0x%lx]\n", __func__, *blank, event);
+
+		if (*blank == FB_BLANK_UNBLANK && event == FB_EARLY_EVENT_BLANK) {
+			s3320_stop_buttons = false;
+			if (ts->is_suspended) {
 				TPD_DEBUG("%s going TP resume start\n", __func__);
 				ts->is_suspended = 0;
-				queue_delayed_work(get_base_report, &ts->base_work,msecs_to_jiffies(80));
+				queue_delayed_work(get_base_report, &ts->base_work, msecs_to_jiffies(80));
 				synaptics_ts_resume(&ts->client->dev);
 				//atomic_set(&ts->is_stop,0);
 				TPD_DEBUG("%s going TP resume end\n", __func__);
 			}
-		}else if( *blank == FB_BLANK_POWERDOWN && (event == FB_EARLY_EVENT_BLANK )){
-			if (ts->is_suspended == 0){
+		} else if (*blank == FB_BLANK_POWERDOWN && event == FB_EARLY_EVENT_BLANK) {
+			if (!ts->is_suspended) {
 				TPD_DEBUG("%s : going TP suspend start\n", __func__);
 				ts->is_suspended = 1;
-				atomic_set(&ts->is_stop,1);
-					if(!(ts->gesture_enable)){
-						touch_disable(ts);
-					}
+				atomic_set(&ts->is_stop, 1);
+				if (!ts->gesture_enable)
+					touch_disable(ts);
 				synaptics_ts_suspend(&ts->client->dev);
 				TPD_DEBUG("%s : going TP suspend end\n", __func__);
 			}
@@ -5005,3 +4803,4 @@ module_exit(tpd_driver_exit);
 
 MODULE_DESCRIPTION("Synaptics S3203 Touchscreen Driver");
 MODULE_LICENSE("GPL");
+

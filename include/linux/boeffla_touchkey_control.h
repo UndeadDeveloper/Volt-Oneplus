@@ -1,7 +1,7 @@
 /*
- *
+ * 
  * Boeffla touchkey control OnePlus3/OnePlus2
- *
+ * 
  * Author: andip71 (aka Lord Boeffla)
  *
  * This software is licensed under the terms of the GNU General Public
@@ -18,38 +18,31 @@
 #include <linux/leds.h>
 
 
-/*****************************************
- * Definitions
- *****************************************/
+/*****************************************/
+// Definitions
+/*****************************************/
 
-#define MODE_TOUCHKEY_DISP	0
+#define	MODE_TOUCHKEY_DISP	0
 #define MODE_TOUCHKEY_ONLY	1
-#define MODE_OFF		2
+#define MODE_OFF			2
 
 #define TIMEOUT_DEFAULT		0
-#define TIMEOUT_MIN		0
-#define TIMEOUT_MAX		30000
+#define TIMEOUT_MIN			0
+#define TIMEOUT_MAX			30000
 
-#define LED_ON			1
-#define LED_OFF			0
+#define LED_ON				1
+#define LED_OFF				0
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-#define BTK_CONTROL_VERSION 	"1.3.0"
-=======
-#define BTK_CONTROL_VERSION	"1.3.1"
->>>>>>> ea81f00dfaa7... leds: boeffla_touchkey_control: Satisfy checkpatch.pl
-=======
 #define BTK_CONTROL_VERSION 	"1.3.1"
->>>>>>> e692825f41ec... leds: Boeffla touchkey control driver update to version 1.3.1
 
 
-/*****************************************
- * Function declarations
- *****************************************/
+/*****************************************/
+// Function declarations
+/*****************************************/
 
 void btkc_touch_start(void);
 void btkc_touch_stop(void);
 void btkc_touch_button(void);
 int btkc_led_set(int val);
 void qpnp_boeffla_set_button_backlight(enum led_brightness value);
+

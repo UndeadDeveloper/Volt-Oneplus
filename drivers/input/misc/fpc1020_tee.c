@@ -68,6 +68,8 @@ module_param(ignor_home_for_ESD, uint, S_IRUGO | S_IWUSR);
 
 #define ONEPLUS_EDIT  //Onplus modify for msm8996 platform and 15801 HW
 
+extern bool s3320_stop_buttons;
+
 struct fpc1020_data {
 	struct device *dev;
     struct wake_lock ttw_wl;
@@ -297,11 +299,6 @@ static ssize_t report_home_set(struct device *dev,
 		return -EINVAL;
 	if (!strncmp(buf, "down", strlen("down")))
 	{
-<<<<<<< HEAD
-            input_report_key(fpc1020->input_dev,
-                            KEY_HOME, 1);
-            input_sync(fpc1020->input_dev);
-=======
             if (!s3320_stop_buttons)
             {
 				input_report_key(fpc1020->input_dev,
@@ -311,7 +308,6 @@ static ssize_t report_home_set(struct device *dev,
 				btkc_touch_button();
 #endif
 			}
->>>>>>> d73710bd0b94... leds: Boeffla touchkey control driver 1.2.0 for OnePlus5 (OOS)
 	}
 	else if (!strncmp(buf, "up", strlen("up")))
 	{
@@ -687,3 +683,4 @@ MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Aleksej Makarov");
 MODULE_AUTHOR("Henrik Tillman <henrik.tillman@fingerprints.com>");
 MODULE_DESCRIPTION("FPC1020 Fingerprint sensor device driver.");
+

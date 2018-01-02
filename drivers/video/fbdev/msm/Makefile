@@ -65,4 +65,8 @@ obj-$(CONFIG_FB_MSM_QPIC) += mdss-qpic.o
 obj-$(CONFIG_FB_MSM_QPIC_ILI_QVGA_PANEL) += qpic_panel_ili_qvga.o
 
 obj-$(CONFIG_FB_MSM_MDSS) += mdss_fb.o mdss_util.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_LIVE_DISPLAY) += mdss_livedisplay.o
+>>>>>>> 8944e2f... msm: mdss: Add LIVE_DISPLAY Kconfig option
 obj-$(CONFIG_COMPAT) += mdss_compat_utils.o

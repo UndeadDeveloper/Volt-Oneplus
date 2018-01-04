@@ -1053,10 +1053,17 @@ static int f2fs_zero_range(struct inode *inode, loff_t offset, loff_t len,
 
 			if (dn.data_blkaddr != NEW_ADDR) {
 				invalidate_blocks(sbi, dn.data_blkaddr);
+<<<<<<< HEAD
 
 				dn.data_blkaddr = NEW_ADDR;
 				set_data_blkaddr(&dn);
 
+=======
+
+				dn.data_blkaddr = NEW_ADDR;
+				set_data_blkaddr(&dn);
+
+>>>>>>> 2a3ea35... fs: Remove crypto code and reset f2fs back to clean v4.4 state
 				dn.data_blkaddr = NULL_ADDR;
 				f2fs_update_extent_cache(&dn);
 			}
@@ -1541,18 +1548,24 @@ static int f2fs_ioc_set_encryption_policy(struct file *filp, unsigned long arg)
 				sizeof(policy)))
 		return -EFAULT;
 
+<<<<<<< HEAD
 	err = mnt_want_write_file(filp);
 	if (err)
 		return err;
 
+=======
+>>>>>>> 2a3ea35... fs: Remove crypto code and reset f2fs back to clean v4.4 state
 	mutex_lock(&inode->i_mutex);
 
 	err = f2fs_process_policy(&policy, inode);
 
 	mutex_unlock(&inode->i_mutex);
 
+<<<<<<< HEAD
 	mnt_drop_write_file(filp);
 
+=======
+>>>>>>> 2a3ea35... fs: Remove crypto code and reset f2fs back to clean v4.4 state
 	return err;
 #else
 	return -EOPNOTSUPP;
@@ -1651,11 +1664,19 @@ static int f2fs_ioc_write_checkpoint(struct file *filp, unsigned long arg)
 		return -EROFS;
 
 	cpc.reason = __get_cp_reason(sbi);
+<<<<<<< HEAD
 
 	mutex_lock(&sbi->gc_mutex);
 	write_checkpoint(sbi, &cpc);
 	mutex_unlock(&sbi->gc_mutex);
 
+=======
+
+	mutex_lock(&sbi->gc_mutex);
+	write_checkpoint(sbi, &cpc);
+	mutex_unlock(&sbi->gc_mutex);
+
+>>>>>>> 2a3ea35... fs: Remove crypto code and reset f2fs back to clean v4.4 state
 	return 0;
 }
 

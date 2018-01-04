@@ -1419,6 +1419,7 @@ enum {
 };
 
 static inline void set_inode_flag(struct f2fs_inode_info *fi, int flag)
+<<<<<<< HEAD
 {
 	if (!test_bit(flag, &fi->flags))
 		set_bit(flag, &fi->flags);
@@ -1431,6 +1432,20 @@ static inline int is_inode_flag_set(struct f2fs_inode_info *fi, int flag)
 
 static inline void clear_inode_flag(struct f2fs_inode_info *fi, int flag)
 {
+=======
+{
+	if (!test_bit(flag, &fi->flags))
+		set_bit(flag, &fi->flags);
+}
+
+static inline int is_inode_flag_set(struct f2fs_inode_info *fi, int flag)
+{
+	return test_bit(flag, &fi->flags);
+}
+
+static inline void clear_inode_flag(struct f2fs_inode_info *fi, int flag)
+{
+>>>>>>> 2a3ea35... fs: Remove crypto code and reset f2fs back to clean v4.4 state
 	if (test_bit(flag, &fi->flags))
 		clear_bit(flag, &fi->flags);
 }
@@ -2124,6 +2139,7 @@ static inline bool f2fs_may_encrypt(struct inode *inode)
 {
 #ifdef CONFIG_F2FS_FS_ENCRYPTION
 	mode_t mode = inode->i_mode;
+<<<<<<< HEAD
 
 	return (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode));
 #else
@@ -2173,6 +2189,69 @@ int f2fs_has_encryption_key(struct inode *);
 
 int f2fs_get_encryption_info(struct inode *inode);
 
+=======
+
+	return (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode));
+#else
+	return 0;
+#endif
+}
+
+/* crypto_policy.c */
+int f2fs_is_child_context_consistent_with_parent(struct inode *,
+							struct inode *);
+int f2fs_inherit_context(struct inode *, struct inode *, struct page *);
+int f2fs_process_policy(const struct f2fs_encryption_policy *, struct inode *);
+int f2fs_get_policy(struct inode *, struct f2fs_encryption_policy *);
+
+/* crypt.c */
+extern struct kmem_cache *f2fs_crypt_info_cachep;
+bool f2fs_valid_contents_enc_mode(uint32_t);
+uint32_t f2fs_validate_encryption_key_size(uint32_t, uint32_t);
+struct f2fs_crypto_ctx *f2fs_get_crypto_ctx(struct inode *);
+void f2fs_release_crypto_ctx(struct f2fs_crypto_ctx *);
+struct page *f2fs_encrypt(struct inode *, struct page *);
+int f2fs_decrypt(struct f2fs_crypto_ctx *, struct page *);
+int f2fs_decrypt_one(struct inode *, struct page *);
+void f2fs_end_io_crypto_work(struct f2fs_crypto_ctx *, struct bio *);
+
+/* crypto_key.c */
+void f2fs_free_encryption_info(struct inode *, struct f2fs_crypt_info *);
+int _f2fs_get_encryption_info(struct inode *inode);
+
+/* crypto_fname.c */
+bool f2fs_valid_filenames_enc_mode(uint32_t);
+u32 f2fs_fname_crypto_round_up(u32, u32);
+int f2fs_fname_crypto_alloc_buffer(struct inode *, u32, struct f2fs_str *);
+int f2fs_fname_disk_to_usr(struct inode *, f2fs_hash_t *,
+			const struct f2fs_str *, struct f2fs_str *);
+int f2fs_fname_usr_to_disk(struct inode *, const struct qstr *,
+			struct f2fs_str *);
+
+#ifdef CONFIG_F2FS_FS_ENCRYPTION
+void f2fs_restore_and_release_control_page(struct page **);
+void f2fs_restore_control_page(struct page *);
+
+int __init f2fs_init_crypto(void);
+int f2fs_crypto_initialize(void);
+void f2fs_exit_crypto(void);
+
+int f2fs_has_encryption_key(struct inode *);
+
+static inline int f2fs_get_encryption_info(struct inode *inode)
+{
+	struct f2fs_crypt_info *ci = F2FS_I(inode)->i_crypt_info;
+
+	if (!ci ||
+		(ci->ci_keyring_key &&
+		 (ci->ci_keyring_key->flags & ((1 << KEY_FLAG_INVALIDATED) |
+					       (1 << KEY_FLAG_REVOKED) |
+					       (1 << KEY_FLAG_DEAD)))))
+		return _f2fs_get_encryption_info(inode);
+	return 0;
+}
+
+>>>>>>> 2a3ea35... fs: Remove crypto code and reset f2fs back to clean v4.4 state
 void f2fs_fname_crypto_free_buffer(struct f2fs_str *);
 int f2fs_fname_setup_filename(struct inode *, const struct qstr *,
 				int lookup, struct f2fs_filename *);

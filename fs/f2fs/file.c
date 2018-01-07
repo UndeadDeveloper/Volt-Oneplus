@@ -1777,6 +1777,22 @@ static int f2fs_ioc_set_encryption_policy(struct file *filp, unsigned long arg)
 	f2fs_update_time(F2FS_I_SB(inode), REQ_TIME);
 
 	return fscrypt_process_policy(filp, &policy);
+	err = mnt_want_write_file(filp);
+	if (err)
+		return err;
+
+	mutex_lock(&inode->i_mutex);
+
+	err = f2fs_process_policy(&policy, inode);
+
+	mutex_unlock(&inode->i_mutex);
+
+	mnt_drop_write_file(filp);
+
+	return err;
+#else
+	return -EOPNOTSUPP;
+#endif
 }
 
 static int f2fs_ioc_get_encryption_policy(struct file *filp, unsigned long arg)

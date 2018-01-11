@@ -322,8 +322,6 @@ config CPU_FREQ_GOV_SCHEDUTIL
 
 comment "CPU frequency scaling drivers"
 
-<<<<<<< HEAD
-=======
 config CPU_BOOST
 	tristate "Event base short term CPU freq boost"
 	depends on CPU_FREQ
@@ -347,7 +345,6 @@ config DYNAMIC_STUNE_BOOST
 
 	  If in doubt, say N.
 
->>>>>>> 4aa926058... cpu-boost: Introduce Dynamic Stune Boost v2
 config CPUFREQ_DT
 	tristate "Generic DT based cpufreq driver"
 	depends on HAVE_CLK && OF
@@ -395,7 +392,6 @@ config MSM_TRACK_FREQ_TARGET_INDEX
 	default y
 	depends on CPU_FREQ && ARCH_MSM8998
 
- workloads
 if X86
 source "drivers/cpufreq/Kconfig.x86"
 endif

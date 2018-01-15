@@ -215,11 +215,14 @@ static int snd_usb_copy_string_desc(struct mixer_build *state,
 				    int index, char *buf, int maxlen)
 {
 	int len = usb_string(state->chip->dev, index, buf, maxlen - 1);
+<<<<<<< HEAD
 
 	if (len < 0)
 		return 0;
 
 	buf[len] = 0;
+=======
+>>>>>>> b340720... Synchronize codes for OnePlus5 OPEN BETA 4 and OnePlus5T OPEN BETA 2
 	return len;
 }
 

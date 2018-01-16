@@ -32,16 +32,10 @@ config IOSCHED_DEADLINE
 	  a new point in the service tree and doing a batch of IO from there
 	  in case of expiry.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 0556749... block: add MAPLE I/O scheduler and set it as default
 config IOSCHED_MAPLE
 	tristate "Maple I/O scheduler"
 	default y
 
-<<<<<<< HEAD
 config IOSCHED_TRIPNDROID
 	tristate "TripNDroid IO Scheduler"
 	default n
@@ -50,9 +44,6 @@ config IOSCHED_TRIPNDROID
 	  it uses deadlines to ensure some fairness. The scheduler is build
 	  to keep a minimum overhead. It is mainly build for mobile devices.
 
->>>>>>> bfd34a7... block: add tripndroid io scheduler
-=======
->>>>>>> 0556749... block: add MAPLE I/O scheduler and set it as default
 config IOSCHED_CFQ
 	tristate "CFQ I/O scheduler"
 	default y

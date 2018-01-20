@@ -1023,12 +1023,8 @@ sg_ioctl(struct file *filp, unsigned int cmd_in, unsigned long arg)
 			    sfp->res_in_use) {
 				mutex_unlock(&sfp->f_mutex);
 				return -EBUSY;
-<<<<<<< HEAD
 			}
-
-=======
 			mutex_lock(&sfp->parentdp->open_rel_lock);
->>>>>>> b340720... Synchronize codes for OnePlus5 OPEN BETA 4 and OnePlus5T OPEN BETA 2
 			sg_remove_scat(sfp, &sfp->reserve);
 			sg_build_reserve(sfp, val);
 			mutex_unlock(&sfp->parentdp->open_rel_lock);

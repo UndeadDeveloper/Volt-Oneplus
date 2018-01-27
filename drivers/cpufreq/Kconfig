@@ -308,6 +308,32 @@ config CPU_FREQ_GOV_SCHEDUTIL
 
 comment "CPU frequency scaling drivers"
 
+<<<<<<< HEAD
+=======
+config CPU_BOOST
+	tristate "Event base short term CPU freq boost"
+	depends on CPU_FREQ
+	help
+	  This driver boosts the frequency of one or more CPUs based on
+	  various events that might occur in the system. As of now, the
+	  events it reacts to are:
+	  - Migration of important threads from one CPU to another.
+
+	  If in doubt, say N.
+
+config DYNAMIC_STUNE_BOOST
+	tristate "Event base short term SchedTune top-app boost"
+	depends on CPU_BOOST && SCHED_TUNE
+	help
+	  This driver extends the CPU Boost driver and increases the
+	  SchedTune top-app boost value of one or more CPUs based on
+	  various events that might occur in the system. As of now, the
+	  events it reacts to are:
+	  - Migration of important threads from one CPU to another.
+
+	  If in doubt, say N.
+
+>>>>>>> 9dd4435... fix build issues
 config CPUFREQ_DT
 	tristate "Generic DT based cpufreq driver"
 	depends on HAVE_CLK && OF
@@ -321,11 +347,6 @@ config CPUFREQ_DT
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 172ab6f... blu_active: dynamic cpufreq policy governor designed for latency-sensitive workloads
 config CPU_FREQ_GOV_BLU_ACTIVE
 	tristate "'blu_active' cpufreq policy governor"
 	help
@@ -341,7 +362,6 @@ config CPU_FREQ_GOV_BLU_ACTIVE
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
 config CPU_FREQ_GOV_ALUCARD
  	bool "'alucard' cpufreq policy governor"
  	help
@@ -356,17 +376,11 @@ config CPU_FREQ_GOV_ALUCARD
  
 	  If in doubt, say N.
 
-<<<<<<< HEAD
->>>>>>> 58574bf... cpufreq_alucard: Imported my cpu governor.
-=======
 config MSM_TRACK_FREQ_TARGET_INDEX
 	bool "Track cpufreq frequency index"
 	default y
 	depends on CPU_FREQ && ARCH_MSM8998
 
->>>>>>> 6474429... cpufreq: Implemented CONFIG_MSM_TRACK_FREQ_TARGET_INDEX to keep track about cpu frequency target index.
-=======
->>>>>>> 172ab6f... blu_active: dynamic cpufreq policy governor designed for latency-sensitive workloads
 if X86
 source "drivers/cpufreq/Kconfig.x86"
 endif

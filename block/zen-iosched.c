@@ -18,11 +18,7 @@ enum zen_data_dir { ASYNC, SYNC };
 
 static const int sync_expire  = HZ / 2;    /* max time before a sync is submitted. */
 static const int async_expire = 5 * HZ;    /* ditto for async, these limits are SOFT! */
-<<<<<<< HEAD
-static const int fifo_batch = 1;
-=======
 static const int fifo_batch = 16;
->>>>>>> 1bbbcb5... block: add zen v2 scheduler
 
 struct zen_data {
 	/* Runtime Data */
@@ -289,8 +285,4 @@ module_exit(zen_exit);
 MODULE_AUTHOR("Brandon Berhent");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Zen IO scheduler");
-<<<<<<< HEAD
-MODULE_VERSION("1.0");
-=======
 MODULE_VERSION("1.1");
->>>>>>> 1bbbcb5... block: add zen v2 scheduler

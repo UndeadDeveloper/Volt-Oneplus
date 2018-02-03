@@ -2159,20 +2159,6 @@ static int path_lookupat(struct nameidata *nd, unsigned flags, struct path *path
 	if (!err && nd->flags & LOOKUP_DIRECTORY)
 		if (!d_can_lookup(nd->path.dentry))
 			err = -ENOTDIR;
-<<<<<<< HEAD
-=======
-
-	if (!err) {
-		struct super_block *sb = nd->inode->i_sb;
-		if (sb->s_flags & MS_RDONLY) {
-			if (d_is_su(nd->path.dentry) && !su_visible()) {
-				path_put(&nd->path);
-				err = -ENOENT;
-			}
-		}
-	}
-
->>>>>>> 1c6553c... kernel: Only expose su when daemon is running
 	if (!err) {
 		*path = nd->path;
 		nd->path.mnt = NULL;
@@ -4722,3 +4708,4 @@ const struct inode_operations page_symlink_inode_operations = {
 	.put_link	= page_put_link,
 };
 EXPORT_SYMBOL(page_symlink_inode_operations);
+

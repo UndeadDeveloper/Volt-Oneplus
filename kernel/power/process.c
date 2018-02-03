@@ -21,6 +21,7 @@
 #include <linux/wakeup_reason.h>
 #include <linux/cpufreq.h>
 #include <linux/cpuset.h>
+
 /*
  * Timeout for stopping processes
  */
@@ -201,7 +202,9 @@ void thaw_fingerprintd(void)
 	pm_nosig_freezing = false;
 	if (fp_irq_cnt) {
 		fp_irq_cnt = false;
+#ifdef CONFIG_CPU_FREQ_ONEPLUS_QOS
 		c1_cpufreq_limit_queue();
+#endif
 	}
 	read_lock(&tasklist_lock);
 	for_each_process_thread(g, p) {
@@ -274,3 +277,4 @@ void thaw_kernel_threads(void)
 	schedule();
 	pr_cont("done.\n");
 }
+

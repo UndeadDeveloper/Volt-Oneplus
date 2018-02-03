@@ -32,30 +32,10 @@ config IOSCHED_DEADLINE
 	  a new point in the service tree and doing a batch of IO from there
 	  in case of expiry.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 0556749... block: add MAPLE I/O scheduler and set it as default
 config IOSCHED_MAPLE
 	tristate "Maple I/O scheduler"
 	default y
 
-<<<<<<< HEAD
-config IOSCHED_TRIPNDROID
-	tristate "TripNDroid IO Scheduler"
-	default n
-	---help---
-	  The TripNDroid IO Scheduler is based on noop, deadline and vr
-	  it uses deadlines to ensure some fairness. The scheduler is build
-	  to keep a minimum overhead. It is mainly build for mobile devices.
-
->>>>>>> bfd34a7... block: add tripndroid io scheduler
-=======
->>>>>>> 0556749... block: add MAPLE I/O scheduler and set it as default
->>>>>>> 5270f8d... block: add MAPLE I/O scheduler and set it as default
 config IOSCHED_CFQ
 	tristate "CFQ I/O scheduler"
 	default y
@@ -92,12 +72,6 @@ config CFQ_GROUP_IOSCHED
 	---help---
 	  Enable group IO scheduling in CFQ.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 9dd4435... fix build issues
 config IOSCHED_BFQ
 	tristate "BFQ I/O scheduler"
 	default n
@@ -123,9 +97,6 @@ config IOSCHED_ZEN
 	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
 	  Should work best with devices where there is no travel delay.
 
-<<<<<<< HEAD
->>>>>>> e830d19... block: add zen scheduler
-=======
 config IOSCHED_FIFO
 	tristate "FIFO I/O scheduler"
 	default y
@@ -143,11 +114,6 @@ config IOSCHED_SIOPLUS
 	  basic merging, trying to keep a minimum overhead. It is aimed
 	  mainly for aleatory access devices (eg: flash devices).  
 
-<<<<<<< HEAD
->>>>>>> 96de525... block: add fifo scheduler
-=======
-<<<<<<< HEAD
-=======
 config IOSCHED_TRIPNDROID
 	tristate "Tripndroid"
 	default y
@@ -161,12 +127,6 @@ config IOSCHED_VR
 	  Requests are chosen according to SSTF with a penalty of rev_penalty
 	  for switching head direction.
 
-<<<<<<< HEAD
->>>>>>> a01ea94... block: add vr scheduler
-<<<<<<< HEAD
->>>>>>> 8a6da9b... block: add vr scheduler
-=======
-=======
 config IOSCHED_ZEN
 	tristate "Zen I/O scheduler"
 	default y
@@ -174,8 +134,6 @@ config IOSCHED_ZEN
 	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
 	  Should work best with devices where there is no travel delay.
 
->>>>>>> 1bbbcb5... block: add zen v2 scheduler
->>>>>>> 5b6e48e... block: add zen v2 scheduler
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_MAPLE
@@ -195,7 +153,6 @@ choice
 	config DEFAULT_SIO
 		bool "SIO" if IOSCHED_SIO=y
 
-<<<<<<< HEAD
 	config DEFAULT_FIOPS
 		bool "FIOPS" if IOSCHED_FIOPS=y
 
@@ -204,29 +161,21 @@ choice
 
 	config DEFAULT_MAPLE
 		bool "Maple" if IOSCHED_MAPLE=y
-=======
 	config DEFAULT_FIFO
 		bool "fifo" if IOSCHED_FIFO=y
->>>>>>> ba376e8... block: add fifo scheduler
 
 	config DEFAULT_SIOPLUS
 		bool "SIOPLUS" if IOSCHED_SIOPLUS=y
 
-<<<<<<< HEAD
-=======
 	config DEFAULT_TRIPNDROID
 		bool "TRIPNDROID" if IOSCHED_TRIPNDROID=y
 
 	config DEFAULT_VR
 		bool "V(R)" if IOSCHED_VR=y
 
-<<<<<<< HEAD
->>>>>>> a01ea94... block: add vr scheduler
-=======
 	config DEFAULT_ZEN
 		bool "ZEN" if IOSCHED_ZEN=y
 
->>>>>>> 1bbbcb5... block: add zen v2 scheduler
 endchoice
 
 config DEFAULT_IOSCHED
@@ -236,25 +185,13 @@ config DEFAULT_IOSCHED
 	default "noop" if DEFAULT_NOOP
 	default "fiops" if DEFAULT_FIOPS
 	default "sio" if DEFAULT_SIO
-<<<<<<< HEAD
 	default "zen" if DEFAULT_ZEN
 	default "maple" if DEFAULT_MAPLE
-=======
 	default "fifo" if DEFAULT_FIFO
-<<<<<<< HEAD
->>>>>>> ba376e8... block: add fifo scheduler
-=======
 	default "sioplus" if DEFAULT_SIOPLUS
-<<<<<<< HEAD
->>>>>>> 84b2697... block: add sioplus scheduler
-=======
 	default "tripndroid" if DEFAULT_TRIPNDROID
 	default "vr" if DEFAULT_VR
-<<<<<<< HEAD
->>>>>>> a01ea94... block: add vr scheduler
-=======
 	default "zen" if DEFAULT_ZEN
->>>>>>> 1bbbcb5... block: add zen v2 scheduler
 
 endmenu
 

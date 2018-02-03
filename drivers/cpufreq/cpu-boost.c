@@ -38,17 +38,25 @@ static bool input_boost_enabled;
 static unsigned int input_boost_ms = 40;
 module_param(input_boost_ms, uint, 0644);
 
+<<<<<<< HEAD
 static bool sched_boost_on_input;
 module_param(sched_boost_on_input, bool, 0644);
 
 static bool sched_boost_active;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 9dd4435... fix build issues
 =======
 #ifdef CONFIG_DYNAMIC_STUNE_BOOST
 static int dynamic_stune_boost = 0;
 module_param(dynamic_stune_boost, uint, 0644);
 #endif /* CONFIG_DYNAMIC_STUNE_BOOST */
+<<<<<<< HEAD
 >>>>>>> 9dd4435... fix build issues
+=======
+>>>>>>> 4aa926058... cpu-boost: Introduce Dynamic Stune Boost v2
+>>>>>>> parent of 9dd4435... fix build issues
 
 static struct delayed_work input_boost_rem;
 static u64 last_input_time;

@@ -2163,15 +2163,12 @@ static int path_lookupat(struct nameidata *nd, unsigned flags, struct path *path
 	if (!err) {
 		struct super_block *sb = nd->inode->i_sb;
 		if (sb->s_flags & MS_RDONLY) {
-<<<<<<< HEAD
 			if (d_is_su(nd->path.dentry) && !su_visible()) {
 				path_put(&nd->path);
 				err = -ENOENT;
 			}
-=======
 			if (d_is_su(nd->path.dentry) && !su_visible())
 				err = -ENOENT;
->>>>>>> 5f98a2f... kernel: Only expose su when daemon is running
 		}
 	}
 

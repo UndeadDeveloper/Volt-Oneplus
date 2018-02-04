@@ -72,7 +72,6 @@ config CFQ_GROUP_IOSCHED
 	---help---
 	  Enable group IO scheduling in CFQ.
 
-<<<<<<< HEAD
 config IOSCHED_BFQ
 	tristate "BFQ I/O scheduler"
 	default n
@@ -91,14 +90,12 @@ config BFQ_GROUP_IOSCHED
 
 	Enable hierarchical scheduling in BFQ, using the blkio
 	(cgroups-v1) or io (cgroups-v2) controller.
-=======
 config IOSCHED_ZEN
 	tristate "Zen I/O scheduler"
 	default y
 	---help---
 	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
 	  Should work best with devices where there is no travel delay.
->>>>>>> 5663c98... block: add zen scheduler
 
 config IOSCHED_FIFO
 	tristate "FIFO I/O scheduler"
@@ -117,12 +114,7 @@ config IOSCHED_SIOPLUS
 	  basic merging, trying to keep a minimum overhead. It is aimed
 	  mainly for aleatory access devices (eg: flash devices).  
 
-config IOSCHED_TRIPNDROID
-	tristate "Tripndroid"
-	default y
-	---help---
-	  The Trip N Droid scheduler
-  
+
 config IOSCHED_VR
 	tristate "V(R) I/O scheduler"
 	default y

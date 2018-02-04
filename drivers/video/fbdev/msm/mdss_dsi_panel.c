@@ -1514,14 +1514,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
-
-=======
 	
 	display_on = true;
 	
     pr_err("%s start\n", __func__);
->>>>>>> 7e410cd... display: add a simple api to query the display state (on/off) at any.
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);

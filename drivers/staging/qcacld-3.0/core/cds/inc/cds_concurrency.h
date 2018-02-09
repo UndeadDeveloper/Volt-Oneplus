@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2018 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -38,6 +38,7 @@
 
 #include "wlan_hdd_main.h"
 
+<<<<<<< HEAD
 #define MAX_NUMBER_OF_CONC_CONNECTIONS 3
 #define DBS_OPPORTUNISTIC_TIME    10
 #ifdef QCA_WIFI_3_0_EMU
@@ -45,6 +46,12 @@
 #else
 #define CONNECTION_UPDATE_TIMEOUT 1000
 #endif
+=======
+#define MAX_NUMBER_OF_CONC_CONNECTIONS    3
+#define DBS_OPPORTUNISTIC_TIME            10
+#define CONNECTION_UPDATE_TIMEOUT         3000
+#define CHANNEL_SWITCH_COMPLETE_TIMEOUT   1000
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 
 /* Some max value greater than the max length of the channel list */
 #define MAX_WEIGHT_OF_PCL_CHANNELS 255

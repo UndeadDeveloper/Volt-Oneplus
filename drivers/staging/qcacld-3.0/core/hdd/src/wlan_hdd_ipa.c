@@ -3866,7 +3866,15 @@ static void hdd_ipa_send_skb_to_network(qdf_nbuf_t skb,
 	cpu_index = wlan_hdd_get_cpu();
 
 	++adapter->hdd_stats.hddTxRxStats.rxPackets[cpu_index];
+<<<<<<< HEAD
 	if (netif_rx_ni(skb) == NET_RX_SUCCESS)
+=======
+	++adapter->stats.rx_packets;
+	adapter->stats.rx_bytes += skb->len;
+
+	result = hdd_ipa_aggregated_rx_ind(skb);
+	if (result == NET_RX_SUCCESS)
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 		++adapter->hdd_stats.hddTxRxStats.rxDelivered[cpu_index];
 	else
 		++adapter->hdd_stats.hddTxRxStats.rxRefused[cpu_index];

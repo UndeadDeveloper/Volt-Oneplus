@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2018 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -1673,6 +1673,7 @@ struct hdd_context_s {
 	/* defining the solution type */
 	uint32_t target_type;
 
+	qdf_atomic_t con_mode_flag;
 	/* defining the firmware version */
 	uint32_t target_fw_version;
 	uint32_t target_fw_vers_ext;
@@ -1809,7 +1810,6 @@ struct hdd_context_s {
 	bool napi_enable;
 	bool stop_modules_in_progress;
 	bool start_modules_in_progress;
-	bool update_mac_addr_to_fw;
 	struct acs_dfs_policy acs_policy;
 	uint16_t wmi_max_len;
 	struct suspend_resume_stats suspend_resume_stats;
@@ -1843,6 +1843,21 @@ struct hdd_context_s {
 	struct vdev_spectral_configure_params ss_config;
 	int sscan_pid;
 #endif
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_TSF
+	/* indicate whether tsf has been initialized */
+	qdf_atomic_t tsf_ready_flag;
+	/* indicate whether it's now capturing tsf(updating tstamp-pair) */
+	qdf_atomic_t cap_tsf_flag;
+	/* the context that is capturing tsf */
+	hdd_adapter_t *cap_tsf_context;
+#endif
+	struct sta_ap_intf_check_work_ctx *sta_ap_intf_check_work_info;
+	uint8_t active_ac;
+	qdf_wake_lock_t monitor_mode_wakelock;
+	struct qdf_mac_addr hw_macaddr;
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 };
 
 int hdd_validate_channel_and_bandwidth(hdd_adapter_t *adapter,

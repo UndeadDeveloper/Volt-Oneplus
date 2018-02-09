@@ -1689,9 +1689,110 @@ int htt_mon_rx_handle_amsdu_packet(qdf_nbuf_t msdu, htt_pdev_handle pdev,
 }
 
 /**
+<<<<<<< HEAD
  * htt_mon_rx_get_phy_info() - Get rate interms of 500Kbps.
  * @rx_desc: Pointer to struct htt_host_rx_desc_base
  * @rx_status: Return variable updated with phy_info in rx_status
+=======
+ * htt_rx_get_rate() - get rate info in terms of 500Kbps from htt_rx_desc
+ * @l_sig_rate_select: OFDM or CCK rate
+ * @l_sig_rate:
+ *
+ * If l_sig_rate_select is 0:
+ * 0x8: OFDM 48 Mbps
+ * 0x9: OFDM 24 Mbps
+ * 0xA: OFDM 12 Mbps
+ * 0xB: OFDM 6 Mbps
+ * 0xC: OFDM 54 Mbps
+ * 0xD: OFDM 36 Mbps
+ * 0xE: OFDM 18 Mbps
+ * 0xF: OFDM 9 Mbps
+ * If l_sig_rate_select is 1:
+ * 0x1:  DSSS 1 Mbps long preamble
+ * 0x2:  DSSS 2 Mbps long preamble
+ * 0x3:  CCK 5.5 Mbps long preamble
+ * 0x4:  CCK 11 Mbps long preamble
+ * 0x5:  DSSS 2 Mbps short preamble
+ * 0x6:  CCK 5.5 Mbps
+ * 0x7:  CCK 11 Mbps short  preamble
+ *
+ * Return: rate interms of 500Kbps.
+ */
+static unsigned char htt_rx_get_rate(uint32_t l_sig_rate_select,
+					uint32_t l_sig_rate, uint8_t *preamble)
+{
+	char ret = 0x0;
+	*preamble = SHORT_PREAMBLE;
+	if (l_sig_rate_select == 0) {
+		switch (l_sig_rate) {
+		case 0x8:
+			ret = 0x60;
+			break;
+		case 0x9:
+			ret = 0x30;
+			break;
+		case 0xA:
+			ret = 0x18;
+			break;
+		case 0xB:
+			ret = 0x0c;
+			break;
+		case 0xC:
+			ret = 0x6c;
+			break;
+		case 0xD:
+			ret = 0x48;
+			break;
+		case 0xE:
+			ret = 0x24;
+			break;
+		case 0xF:
+			ret = 0x12;
+			break;
+		default:
+			break;
+		}
+	} else if (l_sig_rate_select == 1) {
+		switch (l_sig_rate) {
+		case 0x1:
+			ret = 0x2;
+			*preamble = LONG_PREAMBLE;
+			break;
+		case 0x2:
+			ret = 0x4;
+			*preamble = LONG_PREAMBLE;
+			break;
+		case 0x3:
+			ret = 0xB;
+			*preamble = LONG_PREAMBLE;
+			break;
+		case 0x4:
+			ret = 0x16;
+			*preamble = LONG_PREAMBLE;
+			break;
+		case 0x5:
+			ret = 0x4;
+			break;
+		case 0x6:
+			ret = 0xB;
+			break;
+		case 0x7:
+			ret = 0x16;
+			break;
+		default:
+			break;
+		}
+	} else {
+		qdf_print("Invalid rate info\n");
+	}
+	return ret;
+}
+#else
+/**
+ * htt_rx_get_rate() - get rate info in terms of 500Kbps from htt_rx_desc
+ * @l_sig_rate_select: OFDM or CCK rate
+ * @l_sig_rate:
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
  *
  * If l_sig_rate_select is 0:
  * 0x8: OFDM 48 Mbps

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2017 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2011-2018 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -1090,6 +1090,19 @@ lim_process_auth_frame(tpAniSirGlobal mac_ctx, uint8_t *rx_pkt_info,
 		pe_session->limMlmState, MAC_ADDR_ARRAY(mac_hdr->bssId),
 		(uint) abs((int8_t) WMA_GET_RX_RSSI_NORMALIZED(rx_pkt_info)));
 
+<<<<<<< HEAD
+=======
+	if (pe_session->prev_auth_seq_num == curr_seq_num &&
+	    mac_hdr->fc.retry) {
+		pe_err("auth frame, seq num: %d is already processed, drop it",
+			curr_seq_num);
+		return;
+	}
+
+	/* save seq number in pe_session */
+	pe_session->prev_auth_seq_num = curr_seq_num;
+
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 	body_ptr = WMA_GET_RX_MPDU_DATA(rx_pkt_info);
 
 	/* Restore default failure timeout */

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2014, 2016-2017 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012, 2018 The Linux Foundation. All rights reserved.
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -258,6 +262,7 @@ PREPACK struct bmi_target_info {
 /* For Rome3.0 target_reg_tbl ID*/
 #define TARGET_TYPE_AR6320V3  13
 /* For Tufello1.0 target_reg_tbl ID*/
+<<<<<<< HEAD
 #define TARGET_TYPE_QCA9377V1 14
 /* cascade */
 #define TARGET_TYPE_QCA9984   15
@@ -267,6 +272,12 @@ PREPACK struct bmi_target_info {
 #define TARGET_TYPE_QCA9888   17
 /* For Adrastea target */
 #define TARGET_TYPE_ADRASTEA  19
+=======
+#define TARGET_TYPE_QCA9377V1   14
+#define TARGET_TYPE_QCA9984     15 /* cascade */
+#define TARGET_TYPE_IPQ4019     16 /* dakota */
+#define TARGET_TYPE_QCA9888     17 /* besra */
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 
 #define BMI_ROMPATCH_INSTALL               9
 /*

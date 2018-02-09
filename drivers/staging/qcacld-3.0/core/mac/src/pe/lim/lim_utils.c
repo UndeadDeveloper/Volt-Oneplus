@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2017 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2011-2018 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -559,6 +559,7 @@ tSirRetStatus lim_init_mlm(tpAniSirGlobal pMac)
 static void lim_deactivate_del_sta(tpAniSirGlobal mac_ctx, uint32_t bss_entry,
 		tpPESession psession_entry, tpDphHashNode sta_ds)
 {
+<<<<<<< HEAD
 	uint32_t sta_entry;
 
 	for (sta_entry = 1; sta_entry < mac_ctx->lim.gLimAssocStaLimit;
@@ -568,6 +569,84 @@ static void lim_deactivate_del_sta(tpAniSirGlobal mac_ctx, uint32_t bss_entry,
 					&psession_entry->dph.dphHashTable);
 		if (NULL == sta_ds)
 			continue;
+=======
+	uint32_t n;
+	tLimTimers *lim_timer = &mac_ctx->lim.limTimers;
+
+	lim_deactivate_timers_host_roam(mac_ctx);
+
+	/* Deactivate Periodic Probe channel timers. */
+	tx_timer_deactivate(&lim_timer->gLimPeriodicProbeReqTimer);
+
+	/* Deactivate channel switch timer. */
+	tx_timer_deactivate(&lim_timer->gLimChannelSwitchTimer);
+
+	/* Deactivate addts response timer. */
+	tx_timer_deactivate(&lim_timer->gLimAddtsRspTimer);
+
+	if (tx_timer_running(&lim_timer->gLimJoinFailureTimer)) {
+		pe_err("Join failure timer running call the timeout API");
+		/* Cleanup as if join timer expired */
+		lim_process_join_failure_timeout(mac_ctx);
+	}
+	/* Deactivate Join failure timer. */
+	tx_timer_deactivate(&lim_timer->gLimJoinFailureTimer);
+
+	/* Deactivate Periodic Join Probe Request timer. */
+	tx_timer_deactivate(&lim_timer->gLimPeriodicJoinProbeReqTimer);
+
+	/* Deactivate Auth Retry timer. */
+	tx_timer_deactivate
+			(&lim_timer->g_lim_periodic_auth_retry_timer);
+
+	if (tx_timer_running(&lim_timer->gLimAssocFailureTimer)) {
+		pe_err("Assoc failure timer running call the timeout API");
+		/* Cleanup as if assoc timer expired */
+		lim_process_assoc_failure_timeout(mac_ctx, LIM_ASSOC);
+	}
+	/* Deactivate Association failure timer. */
+	tx_timer_deactivate(&lim_timer->gLimAssocFailureTimer);
+
+	/* Deactivate Open system auth timer. */
+	tx_timer_deactivate(&lim_timer->open_sys_auth_timer);
+
+	if (tx_timer_running(&mac_ctx->lim.limTimers.gLimAuthFailureTimer)) {
+		pe_err("Auth failure timer running call the timeout API");
+		/* Cleanup as if auth timer expired */
+		lim_process_auth_failure_timeout(mac_ctx);
+	}
+	/* Deactivate Authentication failure timer. */
+	tx_timer_deactivate(&lim_timer->gLimAuthFailureTimer);
+
+	/* Deactivate wait-for-probe-after-Heartbeat timer. */
+	tx_timer_deactivate(&lim_timer->gLimProbeAfterHBTimer);
+
+	/* Deactivate and delete Quiet timer. */
+	tx_timer_deactivate(&lim_timer->gLimQuietTimer);
+
+	/* Deactivate Quiet BSS timer. */
+	tx_timer_deactivate(&lim_timer->gLimQuietBssTimer);
+
+	/* Deactivate cnf wait timer */
+	for (n = 0; n < (mac_ctx->lim.maxStation + 1); n++)
+		tx_timer_deactivate(&lim_timer->gpLimCnfWaitTimer[n]);
+
+	/* Deactivate any Authentication response timers */
+	lim_delete_pre_auth_list(mac_ctx);
+
+	tx_timer_deactivate(&lim_timer->gLimUpdateOlbcCacheTimer);
+	tx_timer_deactivate(&lim_timer->gLimPreAuthClnupTimer);
+
+	/* Deactivate remain on channel timer */
+	tx_timer_deactivate(&lim_timer->gLimRemainOnChannelTimer);
+
+	tx_timer_deactivate(&lim_timer->gLimDisassocAckTimer);
+
+	tx_timer_deactivate(&lim_timer->gLimDeauthAckTimer);
+
+	tx_timer_deactivate(&lim_timer->
+			gLimP2pSingleShotNoaInsertTimer);
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 
 		pe_err("Deleting pmfSaQueryTimer for staid: %d",
 				sta_ds->staIndex);
@@ -5918,6 +5997,16 @@ bool lim_set_nss_change(tpAniSirGlobal pMac, tpPESession psessionEntry,
 			uint8_t rxNss, uint8_t staId, uint8_t *peerMac)
 {
 	tUpdateRxNss tempParam;
+
+	if (!rxNss) {
+		pe_err("Invalid rxNss value: %u", rxNss);
+		if (!cds_is_driver_recovering()) {
+			if (cds_is_self_recovery_enabled())
+				cds_trigger_recovery(CDS_REASON_UNSPECIFIED);
+			else
+				QDF_BUG(0);
+		}
+	}
 
 	tempParam.rxNss = rxNss;
 	tempParam.staId = staId;

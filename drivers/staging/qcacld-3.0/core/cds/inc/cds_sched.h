@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2018 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -335,6 +335,11 @@ typedef struct _cds_context_type {
 	uint16_t unsafe_channel_list[NUM_CHANNELS];
 	qdf_work_t cds_recovery_work;
 	qdf_workqueue_t *cds_recovery_wq;
+<<<<<<< HEAD
+=======
+	enum cds_hang_reason recovery_reason;
+	qdf_event_t channel_switch_complete;
+>>>>>>> cdbbd35... drivers: staging: Update Wi-Fi stack from CAF (LA.UM.6.4.r1-06500-8x98.0)
 } cds_context_type, *p_cds_contextType;
 
 extern struct _cds_sched_context *gp_cds_sched_context;

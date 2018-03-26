@@ -283,6 +283,7 @@ static unsigned int big_up_target_frequency_delay[BIG_NFREQS] = {
 	0
 };
 
+<<<<<<< HEAD
 static unsigned int big_down_target_frequency_delay[BIG_NFREQS] = {
 	0,
 	0,
@@ -316,6 +317,11 @@ static unsigned int big_down_target_frequency_delay[BIG_NFREQS] = {
 	0,
 	0
 };
+=======
+#define FREQ_RESPONSIVENESS             1036800
+#define FREQ_RESPONSIVENESS_MAX		    1478400
+#define FREQ_RESPONSIVENESS_MAX_BIGC    2265600
+>>>>>>> 9978b54... Change frequency responsiveness
 
 static unsigned int little_up_target_pump_step[LITTLE_NFREQS] = {
 	2,
@@ -342,6 +348,7 @@ static unsigned int little_up_target_pump_step[LITTLE_NFREQS] = {
 	0
 };
 
+<<<<<<< HEAD
 static unsigned int little_down_target_pump_step[LITTLE_NFREQS] = {
 	0,
 	1,
@@ -406,6 +413,13 @@ static unsigned int big_up_target_pump_step[BIG_NFREQS] = {
 	1,
 	0
 };
+=======
+#define PUMP_INC_STEP_AT_MIN_FREQ	3
+#define PUMP_INC_STEP				2
+#define PUMP_DEC_STEP_AT_MIN_FREQ	3
+#define PUMP_DEC_STEP				2
+#define LOAD_MODE					1
+>>>>>>> 9978b54... Change frequency responsiveness
 
 static unsigned int big_down_target_pump_step[BIG_NFREQS] = {
 	0,

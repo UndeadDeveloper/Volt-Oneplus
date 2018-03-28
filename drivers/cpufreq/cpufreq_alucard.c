@@ -320,6 +320,7 @@ static unsigned int big_down_target_frequency_delay[BIG_NFREQS] = {
 =======
 #define FREQ_RESPONSIVENESS             1036800
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define FREQ_RESPONSIVENESS_MAX		    1478400
 #define FREQ_RESPONSIVENESS_MAX_BIGC    2265600
 >>>>>>> 9978b54... Change frequency responsiveness
@@ -378,6 +379,10 @@ static unsigned int little_down_target_pump_step[LITTLE_NFREQS] = {
 	1,
 	1
 };
+=======
+#define FREQ_RESPONSIVENESS_MAX		    1401600
+#define FREQ_RESPONSIVENESS_MAX_BIGC    1804800
+>>>>>>> b74e6c5... Change Alucard tuneables
 
 static unsigned int big_up_target_pump_step[BIG_NFREQS] = {
 	1,

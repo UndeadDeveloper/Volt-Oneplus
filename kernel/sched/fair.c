@@ -6567,12 +6567,8 @@ static int find_new_capacity(struct energy_env *eenv,
 	unsigned long util = group_max_util(eenv);
 
 	for (idx = 0; idx < sge->nr_cap_states; idx++) {
-<<<<<<< HEAD
-		if (sge->cap_states[idx].cap >= util)
-=======
 		if (sge->cap_states[idx].cap >= util) {
 			eenv->cap_idx = idx;
->>>>>>> 2c80fe74... Fix all relevant GCC warnings (LA.UM.6.4.r1-06900-8x98.0)
 			break;
 		}
 	}

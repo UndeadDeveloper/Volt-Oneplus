@@ -2027,7 +2027,3 @@ static int __init lcdscreen_speedup_init_pm_qos(void)
 }
 late_initcall(lcdscreen_speedup_init_pm_qos);
 #endif
-<<<<<<< HEAD
-
-=======
->>>>>>> 58b984e... OP5: Add the ability to compile out QoS framework

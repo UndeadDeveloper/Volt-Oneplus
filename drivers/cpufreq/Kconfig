@@ -335,11 +335,6 @@ config CPUFREQ_DT
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 172ab6f... blu_active: dynamic cpufreq policy governor designed for latency-sensitive workloads
 config CPU_FREQ_GOV_BLU_ACTIVE
 	tristate "'blu_active' cpufreq policy governor"
 	help
@@ -355,7 +350,6 @@ config CPU_FREQ_GOV_BLU_ACTIVE
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
 config CPU_FREQ_GOV_ALUCARD
  	bool "'alucard' cpufreq policy governor"
  	help
@@ -370,17 +364,11 @@ config CPU_FREQ_GOV_ALUCARD
  
 	  If in doubt, say N.
 
-<<<<<<< HEAD
->>>>>>> 58574bf... cpufreq_alucard: Imported my cpu governor.
-=======
 config MSM_TRACK_FREQ_TARGET_INDEX
 	bool "Track cpufreq frequency index"
 	default y
 	depends on CPU_FREQ && ARCH_MSM8998
 
->>>>>>> 6474429... cpufreq: Implemented CONFIG_MSM_TRACK_FREQ_TARGET_INDEX to keep track about cpu frequency target index.
-=======
->>>>>>> 172ab6f... blu_active: dynamic cpufreq policy governor designed for latency-sensitive workloads
 if X86
 source "drivers/cpufreq/Kconfig.x86"
 endif
